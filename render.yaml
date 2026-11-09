@@ -1,0 +1,21 @@
+# Review before applying: creates a paid public web service and persistent disk.
+services:
+  - type: web
+    name: ano-report-worker
+    runtime: docker
+    plan: starter
+    region: virginia
+    dockerfilePath: ./cloud-worker/Dockerfile
+    dockerContext: ./cloud-worker
+    autoDeployTrigger: "off"
+    numInstances: 1
+    maxShutdownDelaySeconds: 30
+    envVars:
+      - key: ANO_DATA_DIR
+        value: /var/data/ano
+      - key: ANO_GATEWAY_TOKEN
+        sync: false
+    disk:
+      name: ano-report-data
+      mountPath: /var/data/ano
+      sizeGB: 1
